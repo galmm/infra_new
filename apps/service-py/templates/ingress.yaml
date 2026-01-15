@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: service-py
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - http:
+        paths:
+        - path: /orders
+          pathType: Prefix
+          backend:
+            service:
+              name: service-py
+              port:
+                number: 80

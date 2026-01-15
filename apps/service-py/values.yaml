@@ -1,0 +1,16 @@
+image:
+  repository: service-py
+  tag: dev
+  pullPolicy: IfNotPresent
+
+service:
+  port: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: ""
+      paths:
+        - path: /orders
+          pathType: Prefix

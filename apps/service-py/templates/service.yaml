@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-py
+spec:
+  selector:
+    app: service-py
+  ports:
+    - port: 80
+      targetPort: {{ .Values.service.port }}

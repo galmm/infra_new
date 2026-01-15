@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-py
+  labels:
+    app: service-py
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-py
+  template:
+    metadata:
+      labels:
+        app: service-py
+    spec:
+      containers:
+        - name: service-py
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: POSTGRES_DSN
+              value: "postgres://app:app@postgres:5432/orders"
+            - name: REDIS_ADDR
+              value: "redis:6379"
+            - name: KAFKA_BROKER
+              value: "kafka:9092"
+            - name: RABBITMQ_URI
+              value: "amqp://guest:guest@rabbitmq:5672/"
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 10

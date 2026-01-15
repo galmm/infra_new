@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: infra-new
+  namespace: flux-system
+spec:
+  interval: 30s
+  url: https://github.com/galmm/infra_new.git
+  ref:
+    branch: main
+  secretRef:
+    name: github-infra-new
