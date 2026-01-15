@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: service-py
+  namespace: apps
+spec:
+  interval: 1m
+  releaseName: service-py
+  chart:
+    spec:
+      chart: ./apps/service-py
+      sourceRef:
+        kind: GitRepository
+        name: infra-new
+        namespace: flux-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: service-py-values
+      optional: true
+  values:
+    image:
+      repository: service-py
+      tag: dev
