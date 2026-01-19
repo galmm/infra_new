@@ -20,7 +20,7 @@ spec:
           image: galmm/service-py:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           env:
             - name: POSTGRES_DSN
               value: "postgres://app:app@postgres:5432/orders"
@@ -33,12 +33,12 @@ spec:
           readinessProbe:
             httpGet:
               path: /healthz
-              port: 80
+              port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 80
+              port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
