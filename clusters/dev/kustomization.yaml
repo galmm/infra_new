@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - ../../infrastructure/ingress-nginx
   - ../../apps/web-ui
-
+  - ../../apps/service-py

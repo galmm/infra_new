@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-py
+  namespace: apps
+  labels:
+    app: service-py
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-py
+  template:
+    metadata:
+      labels:
+        app: service-py
+    spec:
+      containers:
+        - name: service-py
+          image: galmm/service-py:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: POSTGRES_DSN
+              value: "postgres://app:app@postgres:5432/orders"
+            - name: REDIS_ADDR
+              value: "redis:6379"
+            - name: KAFKA_BROKER
+              value: "kafka:9092"
+            - name: RABBITMQ_URI
+              value: "amqp://guest:guest@rabbitmq:5672/"
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
