@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: service-py
-          image: galmm/service-py:latest
+          image: galmm/service-py:v3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
